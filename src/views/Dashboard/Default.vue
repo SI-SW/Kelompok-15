@@ -117,8 +117,8 @@
 </template>
 <script>
 import Card from "@/examples/Cards/Card.vue";
-import GradientLineChart from "@/examples/Charts/GradientLineChart.vue";
-import Carousel from "@/components/examples/Carousel.vue";
+import GradientLineChart from "@/Examples/Charts/GradientLineChart.vue";
+import Carousel from "@/components/Examples/Carousel.vue";
 import CategoriesCard from "@/components/Examples/CategoriesCard.vue";
 import US from "@/assets/img/icons/flags/US.png";
 import DE from "@/assets/img/icons/flags/DE.png";
