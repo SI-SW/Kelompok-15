@@ -80,18 +80,7 @@ import d$todo from '@/stores/dashboard/todo.js';
                                             <td class="align-middle text-start">
                                                 <span class="text-secondary text-xs font-weight-bold">{{item.description}}</span>
                                             </td>
-                                            <td class="align-start row">
-                                                <!--
-                                                <a
-                                                href="javascript:;"
-                                                class="text-secondary font-weight-bold text-xs"
-                                                data-toggle="tooltip"
-                                                data-original-title="Edit user"
-                                                >Edit</a>
-                                                -->
-                                                <!--:to="'/edittodo/' + item.id"
-                                                :to="{name:'Edit To Do'}"-->
-                                               
+                                            <td class="align-start row"> 
                                                 <RouterLink  :to="'/dashboard/todo/edittodo/'+item.id" class="btn btn-info col-3 col-md-auto me-3">Edit</RouterLink>
                                                 <button type="button" @click="a$del(item.id)" class="btn btn-danger text-xs col-3 col-md-auto me-2">Delete</button>
                                             </td>
