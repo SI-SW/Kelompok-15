@@ -6,8 +6,8 @@
     <ul class="navbar-nav">
       <li class="nav-item">
         <sidenav-item
-          url="/dashboard-default"
-          :class="getRoute() === 'dashboard-default' ? 'active' : ''"
+          url="/dashboard"
+          :class="getRoute() === 'dashboard' ? 'active' : ''"
           :navText="this.$store.state.isRTL ? 'لوحة القيادة' : 'Dashboard'"
         >
           <template v-slot:icon>
@@ -17,7 +17,7 @@
       </li>
       <li class="nav-item">
         <sidenav-item
-          url="/tables"
+          url="/dashboard/tables"
           :class="getRoute() === 'tables' ? 'active' : ''"
           :navText="this.$store.state.isRTL ? 'الجداول' : 'Tables'"
         >
@@ -30,36 +30,12 @@
       </li>
       <li class="nav-item">
         <sidenav-item
-          url="/billing"
+          url="/dashboard/billing"
           :class="getRoute() === 'billing' ? 'active' : ''"
           :navText="this.$store.state.isRTL ? 'الفواتیر' : 'Billing'"
         >
           <template v-slot:icon>
             <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
-          </template>
-        </sidenav-item>
-      </li>
-      <li class="nav-item">
-        <sidenav-item
-          url="/virtual-reality"
-          :class="getRoute() === 'virtual-reality' ? 'active' : ''"
-          :navText="
-            this.$store.state.isRTL ? 'الواقع الافتراضي' : 'Virtual Reality'
-          "
-        >
-          <template v-slot:icon>
-            <i class="ni ni-app text-info text-sm opacity-10"></i>
-          </template>
-        </sidenav-item>
-      </li>
-      <li class="nav-item">
-        <sidenav-item
-          url="/rtl-page"
-          :class="getRoute() === 'rtl-page' ? 'active' : ''"
-          navText="RTL"
-        >
-          <template v-slot:icon>
-            <i class="ni ni-world-2 text-danger text-sm opacity-10"></i>
           </template>
         </sidenav-item>
       </li>
@@ -81,7 +57,7 @@
       </li>
       <li class="nav-item">
         <sidenav-item
-          url="/profile"
+          url="/dashboard/profile"
           :class="getRoute() === 'profile' ? 'active' : ''"
           :navText="this.$store.state.isRTL ? 'حساب تعريفي' : 'Profile'"
         >
@@ -91,8 +67,15 @@
         </sidenav-item>
       </li>
       <li class="nav-item">
+        <sidenav-item url="/dashboard/todo" :class="getRoute() === 'todo' ? 'active' : ''" :navText="this.$store.state.isRTL ? 'لوحة القيادة' : 'Todo'">
+          <template v-slot:icon>
+            <i class="ni ni-bullet-list-67 text-primary text-sm opacity-10"></i>
+          </template>
+        </sidenav-item>
+      </li>
+      <li class="nav-item">
         <sidenav-item
-          url="/signin"
+          url="/auth/signin"
           :class="getRoute() === 'signin' ? 'active' : ''"
           :navText="this.$store.state.isRTL ? 'تسجيل الدخول' : 'Sign In'"
         >
@@ -103,7 +86,7 @@
       </li>
       <li class="nav-item">
         <sidenav-item
-          url="/signup"
+          url="/auth/signup"
           :class="getRoute() === 'signup' ? 'active' : ''"
           :navText="this.$store.state.isRTL ? 'اشتراك' : 'Sign Up'"
         >
@@ -112,9 +95,17 @@
           </template>
         </sidenav-item>
       </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link" @click="logout">
+          <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+            <i class="ni ni-button-power text-warning text-sm opacity-10"></i>
+          </div>
+          <span class="nav-link-text ms-1 text-warning">Sign Out</span>
+        </a>
+      </li>
     </ul>
   </div>
-  <div class="pt-3 mx-3 mt-3 sidenav-footer">
+  <div class="pt-5 sidenav-footer">
     <sidenav-card
       :class="cardBg"
       textPrimary="Need Help?"
@@ -125,6 +116,8 @@
 <script>
 import SidenavItem from "./SidenavItem.vue";
 import SidenavCard from "./SidenavCard.vue";
+import {mapActions} from "pinia";
+import d$auth from "@/stores/auth";
 
 export default {
   name: "SidenavList",
@@ -146,7 +139,17 @@ export default {
     getRoute() {
       const routeArr = this.$route.path.split("/");
       return routeArr[1];
-    }
-  }
+    },
+    ...mapActions(d$auth, ["a$logout"]),
+    logout() {
+      try {
+        this.a$logout();
+        alert("Logout Successfully");
+        this.$router.replace({ name: "Signin" });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  },
 };
 </script>
