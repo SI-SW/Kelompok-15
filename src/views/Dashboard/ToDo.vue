@@ -1,25 +1,38 @@
 <script>
 import { mapActions, mapState } from 'pinia'
 import {RouterLink} from 'vue-router'
-import d$todo from '@/stores/dashboard/todo.js'; 
+import d$todo from '@/stores/dashboard/todo.js';
     export default {
         name: 'Todo',
         computed: {
             ...mapState(d$todo, ['g$list']),
         },
         methods: {
-            ...mapActions(d$todo, ['a$list']),
+            ...mapActions(d$todo, ['a$list', 'a$del']),
             async getList() {
                 try {
                     await this.a$list();
                 } catch(e) {
-                    console.error('methods getList error', r);
+                    console.error('methods getList error', e);
                 }
             },
-            ...mapActions(d$todo, ['a$del']),
+            async deleteTodo(idTodo) {
+            try {
+                if (confirm("Do you want to delete this data?") == true) {
+                await this.a$del(idTodo);
+                alert("Delete Successfully");
+                this.$router.go(this.$router.currentRoute);
+                } else {
+                this.$router.go(this.$router.currentRoute);
+                }
+            } catch (e) {
+                console.error(" error", e);
+            }
+            },
+            
         },
         async created() {
-            await this.getList();
+            await this.a$list();
         }
     };
 </script>
@@ -56,7 +69,14 @@ import d$todo from '@/stores/dashboard/todo.js';
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(item, index) in g$list" :key="index" class="text-capitalize">
+                                        <tr v-if="!g$list.length">
+                                            <td colspan="5" class="text-center">Data Masih kosong</td>
+                                        </tr>
+                                        <tr
+                                        v-for="(item, index) in g$list"
+                                        :key="index"
+                                        v-else
+                                        >
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                 <div>
@@ -93,7 +113,7 @@ import d$todo from '@/stores/dashboard/todo.js';
                                                 :to="{name:'Edit To Do'}"-->
                                                
                                                 <RouterLink  :to="'/dashboard/todo/edittodo/'+item.id" class="btn btn-info col-3 col-md-auto me-3">Edit</RouterLink>
-                                                <button type="button" @click="a$del(item.id)" class="btn btn-danger text-xs col-3 col-md-auto me-2">Delete</button>
+                                                <button type="button" @click.prevent="deleteTodo(item.id)" class="btn btn-danger text-xs col-3 col-md-auto me-2">Delete</button>
                                             </td>
                                         </tr>
                                     </tbody>

@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 
-import * as s$todo from '@/services/todo';
+import * as s$todo from '../../services/todo.js';
 
 const d$todo = defineStore({
     id: 'todo',
@@ -49,6 +49,9 @@ const d$todo = defineStore({
     },
     getters: {
         g$list: ({ list }) => list,
+        g$detail: ({ list }) => {
+            return (id) => list.find((x) => x.id == id);
+          },
     },
 });
 
