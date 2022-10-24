@@ -170,7 +170,7 @@ export default {
       const response = await axios
         .post("https://be.tautan.ml/auth/register", data, { headers })
         .then((res) => {
-          alert("Register Successfully");
+          alert("Register Berhasil");
           this.$router.push('Signin')
         })
         .catch((err) => {
